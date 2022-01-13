@@ -1,26 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import "./App.css";
+import BottomNavbar from "./components/BottomNavbar";
+import Loading from "./components/Loading";
+import { PostsProvider } from "./context";
+import { Posts } from "./pages";
 
-function App() {
+const routes = [
+  {
+    key: 1,
+    path: "/posts",
+    element: <Posts />,
+  },
+  {
+    key: 2,
+    path: "/favorites",
+    element: <div className="favorites">В разработке...</div>,
+  },
+  {
+    key: 3,
+    path: "/settings",
+    element: <div className="settings">В разработке...</div>,
+  },
+];
+
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <PostsProvider>
+      <BrowserRouter>
+        <Loading />
+        <Routes>
+          {routes.map((item) => {
+            return <Route {...item} />;
+          })}
+        </Routes>
+        <React.Fragment>
+          <BottomNavbar />
+        </React.Fragment>
+      </BrowserRouter>
+    </PostsProvider>
   );
-}
+};
 
 export default App;
